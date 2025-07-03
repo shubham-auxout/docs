@@ -46,6 +46,12 @@
             "pages": [
               "api-reference/endpoints/customer"
             ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "api-reference/error-codes"
+            ]
           }
         ]
       }
