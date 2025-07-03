@@ -84,13 +84,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@auxvault.com"
+        "href": "mailto:dev@auxvault..net"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.auxvault.com"
+      "label": "Login",
+      "href": "https://auxvault.net/login"
     }
   },
   "footer": {
