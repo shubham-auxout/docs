@@ -1,32 +1,52 @@
-# Mintlify Starter Kit
+# AuxVault API Documentation
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+This repository contains the official API documentation for AuxVault, a comprehensive financial transaction platform. The documentation is built using [Mintlify](https://mintlify.com/).
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+## Documentation Structure
 
-### Development
+### API Reference
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview the documentation changes locally. To install, use the following command
+- **Introduction**: Overview of the API, authentication, and general information
+- **Transaction Endpoints**:
+  - Transaction API (card and ACH payments)
+  - Void Transaction API
+  - Refund API
+  - Recurring Transaction API
+  - Token Transaction API
+  - Transaction Retrieval API
+- **Customer Management**:
+  - Customer API
 
+## Local Development
+
+To preview the documentation locally, install the Mintlify CLI:
+
+```bash
+npm i -g mintlify
 ```
-npm i -g mint
+
+Then run the development server:
+
+```bash
+mintlify dev
 ```
 
-Run the following command at the root of your documentation (where docs.json is)
+## Customization
 
-```
-mint dev
-```
+The documentation uses the following customization files:
 
-### Publishing Changes
+- `docs.json`: Configuration for navigation, colors, and branding
+- `/images/`: Directory containing logo files and other images
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
+## Deployment
 
-#### Troubleshooting
+Changes pushed to the main branch will automatically deploy to the documentation site through Mintlify's GitHub integration.
 
-- If the dev environment isn't running - Run `mint update` to ensure you have the most recent version of the CLI.
-- Page loads as a 404 - Make sure you are running in a folder with `docs.json`
+## Contributing
+
+When contributing to the documentation, please follow these guidelines:
+
+1. Ensure all API examples are accurate and tested
+2. Maintain consistent formatting across all documentation pages
+3. Include detailed request/response examples for all endpoints
+4. Document all possible error codes and their meanings

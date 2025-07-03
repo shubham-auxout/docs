@@ -1,0 +1,326 @@
+---
+title: 'Transaction API'
+description: 'Process card and ACH transactions through the AuxVault platform'
+---
+
+# Transaction API
+
+The Transaction API allows you to process financial transactions using credit/debit cards or ACH (Automated Clearing House) bank transfers.
+
+## Card Transaction
+
+Process a payment using credit or debit card information.
+
+### API Endpoint
+
+```
+POST /api/v1/public/transaction
+```
+
+### Request Parameters
+
+<ParamField body="TransactionType" type="string" required>
+  Must be set to `CARD` for card transactions
+</ParamField>
+
+<ParamField body="Amount" type="number" required>
+  Transaction amount in dollars (e.g., 10.99)
+</ParamField>
+
+<ParamField body="Currency" type="string" default="USD">
+  Three-letter ISO currency code
+</ParamField>
+
+<ParamField body="CardNumber" type="string" required>
+  The card number (PAN)
+</ParamField>
+
+<ParamField body="ExpirationMonth" type="string" required>
+  Two-digit expiration month (e.g., "01" for January)
+</ParamField>
+
+<ParamField body="ExpirationYear" type="string" required>
+  Four-digit expiration year (e.g., "2025")
+</ParamField>
+
+<ParamField body="CVV" type="string" required>
+  Card verification value (3-4 digits)
+</ParamField>
+
+<ParamField body="FirstName" type="string" required>
+  Cardholder's first name
+</ParamField>
+
+<ParamField body="LastName" type="string" required>
+  Cardholder's last name
+</ParamField>
+
+<ParamField body="Address" type="string" required>
+  Billing street address
+</ParamField>
+
+<ParamField body="City" type="string" required>
+  Billing city
+</ParamField>
+
+<ParamField body="State" type="string" required>
+  Billing state/province (2-letter code for US/CA)
+</ParamField>
+
+<ParamField body="PostalCode" type="string" required>
+  Billing postal/ZIP code
+</ParamField>
+
+<ParamField body="Country" type="string" required>
+  Billing country (2-letter ISO code)
+</ParamField>
+
+<ParamField body="Email" type="string">
+  Customer's email address
+</ParamField>
+
+<ParamField body="Phone" type="string">
+  Customer's phone number
+</ParamField>
+
+<ParamField body="Description" type="string">
+  Description of the transaction
+</ParamField>
+
+<ParamField body="OrderId" type="string">
+  Your system's order identifier
+</ParamField>
+
+<ParamField body="CustomerId" type="string">
+  Your system's customer identifier
+</ParamField>
+
+<ParamField body="Metadata" type="object">
+  Additional data to store with the transaction
+</ParamField>
+
+### Example Request
+
+```json
+{
+  "TransactionType": "CARD",
+  "Amount": 99.99,
+  "Currency": "USD",
+  "CardNumber": "4111111111111111",
+  "ExpirationMonth": "12",
+  "ExpirationYear": "2025",
+  "CVV": "123",
+  "FirstName": "John",
+  "LastName": "Doe",
+  "Address": "123 Main St",
+  "City": "Anytown",
+  "State": "CA",
+  "PostalCode": "12345",
+  "Country": "US",
+  "Email": "john.doe@example.com",
+  "Phone": "555-123-4567",
+  "Description": "Premium subscription",
+  "OrderId": "order_12345",
+  "CustomerId": "cust_6789",
+  "Metadata": {
+    "product_id": "prod_123",
+    "promotion_code": "SUMMER2025"
+  }
+}
+```
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "transactionId": "txn_a1b2c3d4e5f6",
+    "amount": 99.99,
+    "currency": "USD",
+    "status": "approved",
+    "authCode": "123456",
+    "cardBrand": "Visa",
+    "last4": "1111",
+    "createdAt": "2025-07-03T06:15:23Z",
+    "orderId": "order_12345",
+    "customerId": "cust_6789"
+  }
+}
+```
+
+### Error Codes
+
+| Code | Description |
+|------|-------------|
+| `invalid_card` | The card number is invalid |
+| `expired_card` | The card has expired |
+| `insufficient_funds` | The card has insufficient funds |
+| `declined` | The transaction was declined by the issuing bank |
+| `processor_error` | An error occurred with the payment processor |
+| `invalid_data` | The request contains invalid data |
+| `duplicate_transaction` | A transaction with the same parameters was recently processed |
+
+### Security
+
+<Warning>
+  Card data should never be stored on your servers unless you are PCI DSS compliant. Consider using our tokenization service for recurring payments.
+</Warning>
+
+## ACH Transaction
+
+Process a payment using ACH (bank transfer) information.
+
+### API Endpoint
+
+```
+POST /api/v1/public/transaction
+```
+
+### Request Parameters
+
+<ParamField body="TransactionType" type="string" required>
+  Must be set to `ACH` for ACH transactions
+</ParamField>
+
+<ParamField body="Amount" type="number" required>
+  Transaction amount in dollars (e.g., 10.99)
+</ParamField>
+
+<ParamField body="Currency" type="string" default="USD">
+  Must be USD for ACH transactions
+</ParamField>
+
+<ParamField body="AccountType" type="string" required>
+  Either `checking` or `savings`
+</ParamField>
+
+<ParamField body="AccountNumber" type="string" required>
+  Bank account number
+</ParamField>
+
+<ParamField body="RoutingNumber" type="string" required>
+  9-digit ABA routing number
+</ParamField>
+
+<ParamField body="FirstName" type="string" required>
+  Account holder's first name
+</ParamField>
+
+<ParamField body="LastName" type="string" required>
+  Account holder's last name
+</ParamField>
+
+<ParamField body="Address" type="string" required>
+  Account holder's street address
+</ParamField>
+
+<ParamField body="City" type="string" required>
+  Account holder's city
+</ParamField>
+
+<ParamField body="State" type="string" required>
+  Account holder's state (2-letter code)
+</ParamField>
+
+<ParamField body="PostalCode" type="string" required>
+  Account holder's ZIP code
+</ParamField>
+
+<ParamField body="Country" type="string" required>
+  Must be "US" for ACH transactions
+</ParamField>
+
+<ParamField body="Email" type="string">
+  Customer's email address
+</ParamField>
+
+<ParamField body="Phone" type="string">
+  Customer's phone number
+</ParamField>
+
+<ParamField body="Description" type="string">
+  Description of the transaction
+</ParamField>
+
+<ParamField body="OrderId" type="string">
+  Your system's order identifier
+</ParamField>
+
+<ParamField body="CustomerId" type="string">
+  Your system's customer identifier
+</ParamField>
+
+<ParamField body="Metadata" type="object">
+  Additional data to store with the transaction
+</ParamField>
+
+### Example Request
+
+```json
+{
+  "TransactionType": "ACH",
+  "Amount": 199.99,
+  "Currency": "USD",
+  "AccountType": "checking",
+  "AccountNumber": "12345678901",
+  "RoutingNumber": "123456789",
+  "FirstName": "Jane",
+  "LastName": "Smith",
+  "Address": "456 Oak Ave",
+  "City": "Somewhere",
+  "State": "NY",
+  "PostalCode": "10001",
+  "Country": "US",
+  "Email": "jane.smith@example.com",
+  "Phone": "555-987-6543",
+  "Description": "Monthly service fee",
+  "OrderId": "order_67890",
+  "CustomerId": "cust_12345",
+  "Metadata": {
+    "service_id": "serv_456",
+    "billing_period": "July 2025"
+  }
+}
+```
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "transactionId": "txn_f6e5d4c3b2a1",
+    "amount": 199.99,
+    "currency": "USD",
+    "status": "pending",
+    "accountLast4": "8901",
+    "createdAt": "2025-07-03T08:30:45Z",
+    "estimatedSettlementDate": "2025-07-06T00:00:00Z",
+    "orderId": "order_67890",
+    "customerId": "cust_12345"
+  }
+}
+```
+
+<Note>
+  ACH transactions are initially set to "pending" status and take 3-5 business days to settle. Use webhooks to receive updates when the transaction status changes.
+</Note>
+
+### Error Codes
+
+| Code | Description |
+|------|-------------|
+| `invalid_routing_number` | The routing number is invalid |
+| `invalid_account_number` | The account number is invalid or improperly formatted |
+| `insufficient_funds` | The account has insufficient funds |
+| `account_closed` | The bank account is closed |
+| `processor_error` | An error occurred with the ACH processor |
+| `invalid_data` | The request contains invalid data |
+| `duplicate_transaction` | A transaction with the same parameters was recently processed |
+
+### Security
+
+<Warning>
+  Bank account data should be handled with the utmost security. Consider using our tokenization service for recurring payments to avoid handling sensitive bank information repeatedly.
+</Warning>

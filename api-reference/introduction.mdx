@@ -1,33 +1,93 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Reference'
+description: 'Complete documentation for the AuxVault financial transaction API'
 ---
 
+# AuxVault API Overview
+
+The AuxVault API is a RESTful API that allows you to process financial transactions, manage customers, and access transaction data securely. This documentation provides detailed information about each endpoint, including request parameters, response formats, and error handling.
+
+## Base URLs
+
+```
+# Production Environment
+https://api.auxvault.net
+
+# Sandbox Environment (for testing)
+https://dev-api.auxvault.net
+```
+
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  Always use the sandbox environment for development and testing before moving to production.
 </Note>
 
-## Welcome
+## API Versioning
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+The AuxVault API uses versioning to ensure backward compatibility as we add new features. The current version is `v1`.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+All API requests should include the version in the URL path:
+
+```
+https://api.auxvault.net/api/v1/public/transaction
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API requests must include your API key in the Authorization header:
+
+```bash
+Authorization: YOUR_API_KEY
+```
+
+<Warning>
+  Keep your API keys secure. Never expose them in client-side code or public repositories.
+</Warning>
+
+## Request Headers
+
+| Header          | Required | Description                           |
+|-----------------|----------|---------------------------------------|
+| `Authorization` | Yes      | Your API key                          |
+| `Content-Type`  | Yes      | Must be `application/json`            |
+| `Accept`        | No       | Defaults to `application/json`        |
+
+## Response Format
+
+All API responses are returned in JSON format. A successful response will have a status code in the 2xx range and contain the requested data. Error responses will have a status code in the 4xx or 5xx range and include an error message.
+
+### Success Response Example
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "status": "success",
+  "data": {
+    "transactionId": "txn_123456789",
+    "amount": 100.00,
+    "currency": "USD",
+    "status": "approved",
+    "createdAt": "2025-07-03T06:15:23Z"
   }
-]
+}
 ```
+
+### Error Response Example
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "invalid_card",
+    "message": "The card number provided is invalid",
+    "requestId": "req_abcdefg123456"
+  }
+}
+```
+
+## Rate Limiting
+
+The AuxVault API implements rate limiting to protect against abuse. The current limits are:
+
+- 100 requests per minute for standard accounts
+- 300 requests per minute for enterprise accounts
+
+If you exceed these limits, you'll receive a `429 Too Many Requests` response.

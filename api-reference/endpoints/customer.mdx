@@ -1,0 +1,548 @@
+---
+title: 'Customer API'
+description: 'Create and manage customer profiles with stored payment methods'
+---
+
+# Customer API
+
+The Customer API allows you to create and manage customer profiles in the AuxVault system. Customer profiles can store contact information and payment methods securely, making it easier to process future transactions without requiring customers to re-enter their payment details.
+
+## Create Customer
+
+Create a new customer profile.
+
+### API Endpoint
+
+```
+POST /api/v1/public/customer
+```
+
+### Request Parameters
+
+<ParamField body="FirstName" type="string" required>
+  Customer's first name
+</ParamField>
+
+<ParamField body="LastName" type="string" required>
+  Customer's last name
+</ParamField>
+
+<ParamField body="Email" type="string" required>
+  Customer's email address
+</ParamField>
+
+<ParamField body="Phone" type="string">
+  Customer's phone number
+</ParamField>
+
+<ParamField body="Address" type="string">
+  Customer's street address
+</ParamField>
+
+<ParamField body="City" type="string">
+  Customer's city
+</ParamField>
+
+<ParamField body="State" type="string">
+  Customer's state/province (2-letter code for US/CA)
+</ParamField>
+
+<ParamField body="PostalCode" type="string">
+  Customer's postal/ZIP code
+</ParamField>
+
+<ParamField body="Country" type="string">
+  Customer's country (2-letter ISO code)
+</ParamField>
+
+<ParamField body="ExternalId" type="string">
+  Your system's customer identifier
+</ParamField>
+
+<ParamField body="Metadata" type="object">
+  Additional data to store with the customer profile
+</ParamField>
+
+### Example Request
+
+```json
+{
+  "FirstName": "John",
+  "LastName": "Doe",
+  "Email": "john.doe@example.com",
+  "Phone": "555-123-4567",
+  "Address": "123 Main St",
+  "City": "Anytown",
+  "State": "CA",
+  "PostalCode": "12345",
+  "Country": "US",
+  "ExternalId": "cust_6789",
+  "Metadata": {
+    "user_id": "user_12345",
+    "account_type": "premium"
+  }
+}
+```
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "customerId": "cus_h7i8j9k0l1m2",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "555-123-4567",
+    "address": "123 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "postalCode": "12345",
+    "country": "US",
+    "externalId": "cust_6789",
+    "createdAt": "2025-07-03T12:15:30Z",
+    "updatedAt": "2025-07-03T12:15:30Z"
+  }
+}
+```
+
+## Get Customer
+
+Retrieve a customer profile by ID.
+
+### API Endpoint
+
+```
+GET /api/v1/public/customer/{customerId}
+```
+
+### Path Parameters
+
+<ParamField path="customerId" type="string" required>
+  The AuxVault customer ID
+</ParamField>
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "customerId": "cus_h7i8j9k0l1m2",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "555-123-4567",
+    "address": "123 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "postalCode": "12345",
+    "country": "US",
+    "externalId": "cust_6789",
+    "paymentMethods": [
+      {
+        "tokenId": "tok_s9t8u7v6w5x4",
+        "type": "card",
+        "brand": "Visa",
+        "last4": "1111",
+        "expirationMonth": "12",
+        "expirationYear": "2026",
+        "isDefault": true,
+        "createdAt": "2025-07-03T12:20:15Z"
+      }
+    ],
+    "createdAt": "2025-07-03T12:15:30Z",
+    "updatedAt": "2025-07-03T12:20:15Z"
+  }
+}
+```
+
+## Update Customer
+
+Update an existing customer profile.
+
+### API Endpoint
+
+```
+PUT /api/v1/public/customer/{customerId}
+```
+
+### Path Parameters
+
+<ParamField path="customerId" type="string" required>
+  The AuxVault customer ID
+</ParamField>
+
+### Request Parameters
+
+All parameters are optional. Only the fields you want to update need to be included.
+
+<ParamField body="FirstName" type="string">
+  Customer's first name
+</ParamField>
+
+<ParamField body="LastName" type="string">
+  Customer's last name
+</ParamField>
+
+<ParamField body="Email" type="string">
+  Customer's email address
+</ParamField>
+
+<ParamField body="Phone" type="string">
+  Customer's phone number
+</ParamField>
+
+<ParamField body="Address" type="string">
+  Customer's street address
+</ParamField>
+
+<ParamField body="City" type="string">
+  Customer's city
+</ParamField>
+
+<ParamField body="State" type="string">
+  Customer's state/province (2-letter code for US/CA)
+</ParamField>
+
+<ParamField body="PostalCode" type="string">
+  Customer's postal/ZIP code
+</ParamField>
+
+<ParamField body="Country" type="string">
+  Customer's country (2-letter ISO code)
+</ParamField>
+
+<ParamField body="ExternalId" type="string">
+  Your system's customer identifier
+</ParamField>
+
+<ParamField body="Metadata" type="object">
+  Additional data to store with the customer profile
+</ParamField>
+
+### Example Request
+
+```json
+{
+  "Phone": "555-987-6543",
+  "Address": "456 Oak Ave",
+  "City": "New City",
+  "State": "NY",
+  "PostalCode": "54321",
+  "Metadata": {
+    "account_type": "enterprise",
+    "preferred_contact_method": "email"
+  }
+}
+```
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "customerId": "cus_h7i8j9k0l1m2",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "555-987-6543",
+    "address": "456 Oak Ave",
+    "city": "New City",
+    "state": "NY",
+    "postalCode": "54321",
+    "country": "US",
+    "externalId": "cust_6789",
+    "createdAt": "2025-07-03T12:15:30Z",
+    "updatedAt": "2025-07-03T13:05:45Z"
+  }
+}
+```
+
+## Add Payment Method
+
+Add a new payment method to a customer profile.
+
+### API Endpoint
+
+```
+POST /api/v1/public/customer/{customerId}/payment-method
+```
+
+### Path Parameters
+
+<ParamField path="customerId" type="string" required>
+  The AuxVault customer ID
+</ParamField>
+
+### Request Parameters for Card
+
+<ParamField body="PaymentType" type="string" required>
+  Must be `CARD` for card payment methods
+</ParamField>
+
+<ParamField body="CardNumber" type="string" required>
+  The card number (PAN)
+</ParamField>
+
+<ParamField body="ExpirationMonth" type="string" required>
+  Two-digit expiration month (e.g., "01" for January)
+</ParamField>
+
+<ParamField body="ExpirationYear" type="string" required>
+  Four-digit expiration year (e.g., "2025")
+</ParamField>
+
+<ParamField body="CVV" type="string" required>
+  Card verification value (3-4 digits)
+</ParamField>
+
+<ParamField body="FirstName" type="string" required>
+  Cardholder's first name
+</ParamField>
+
+<ParamField body="LastName" type="string" required>
+  Cardholder's last name
+</ParamField>
+
+<ParamField body="Address" type="string" required>
+  Billing street address
+</ParamField>
+
+<ParamField body="City" type="string" required>
+  Billing city
+</ParamField>
+
+<ParamField body="State" type="string" required>
+  Billing state/province (2-letter code for US/CA)
+</ParamField>
+
+<ParamField body="PostalCode" type="string" required>
+  Billing postal/ZIP code
+</ParamField>
+
+<ParamField body="Country" type="string" required>
+  Billing country (2-letter ISO code)
+</ParamField>
+
+<ParamField body="IsDefault" type="boolean" default="false">
+  Set this payment method as the default for the customer
+</ParamField>
+
+### Request Parameters for ACH
+
+<ParamField body="PaymentType" type="string" required>
+  Must be `ACH` for ACH payment methods
+</ParamField>
+
+<ParamField body="AccountType" type="string" required>
+  Either `checking` or `savings`
+</ParamField>
+
+<ParamField body="AccountNumber" type="string" required>
+  Bank account number
+</ParamField>
+
+<ParamField body="RoutingNumber" type="string" required>
+  9-digit ABA routing number
+</ParamField>
+
+<ParamField body="FirstName" type="string" required>
+  Account holder's first name
+</ParamField>
+
+<ParamField body="LastName" type="string" required>
+  Account holder's last name
+</ParamField>
+
+<ParamField body="Address" type="string" required>
+  Account holder's street address
+</ParamField>
+
+<ParamField body="City" type="string" required>
+  Account holder's city
+</ParamField>
+
+<ParamField body="State" type="string" required>
+  Account holder's state (2-letter code)
+</ParamField>
+
+<ParamField body="PostalCode" type="string" required>
+  Account holder's ZIP code
+</ParamField>
+
+<ParamField body="Country" type="string" required>
+  Must be "US" for ACH payments
+</ParamField>
+
+<ParamField body="IsDefault" type="boolean" default="false">
+  Set this payment method as the default for the customer
+</ParamField>
+
+### Example Request - Add Card
+
+```json
+{
+  "PaymentType": "CARD",
+  "CardNumber": "4111111111111111",
+  "ExpirationMonth": "12",
+  "ExpirationYear": "2026",
+  "CVV": "123",
+  "FirstName": "John",
+  "LastName": "Doe",
+  "Address": "123 Main St",
+  "City": "Anytown",
+  "State": "CA",
+  "PostalCode": "12345",
+  "Country": "US",
+  "IsDefault": true
+}
+```
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "tokenId": "tok_s9t8u7v6w5x4",
+    "customerId": "cus_h7i8j9k0l1m2",
+    "type": "card",
+    "brand": "Visa",
+    "last4": "1111",
+    "expirationMonth": "12",
+    "expirationYear": "2026",
+    "isDefault": true,
+    "createdAt": "2025-07-03T13:25:10Z"
+  }
+}
+```
+
+## Delete Payment Method
+
+Remove a payment method from a customer profile.
+
+### API Endpoint
+
+```
+DELETE /api/v1/public/customer/{customerId}/payment-method/{tokenId}
+```
+
+### Path Parameters
+
+<ParamField path="customerId" type="string" required>
+  The AuxVault customer ID
+</ParamField>
+
+<ParamField path="tokenId" type="string" required>
+  The payment method token ID
+</ParamField>
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "message": "Payment method successfully deleted",
+    "tokenId": "tok_s9t8u7v6w5x4",
+    "customerId": "cus_h7i8j9k0l1m2"
+  }
+}
+```
+
+## List Customers
+
+Retrieve a paginated list of customers.
+
+### API Endpoint
+
+```
+GET /api/v1/public/customers
+```
+
+### Query Parameters
+
+<ParamField query="limit" type="integer" default="25">
+  Number of results per page (max 100)
+</ParamField>
+
+<ParamField query="offset" type="integer" default="0">
+  Number of results to skip
+</ParamField>
+
+<ParamField query="email" type="string">
+  Filter by email address
+</ParamField>
+
+<ParamField query="externalId" type="string">
+  Filter by external ID
+</ParamField>
+
+<ParamField query="createdAfter" type="string">
+  Filter by creation date (ISO 8601 format)
+</ParamField>
+
+<ParamField query="createdBefore" type="string">
+  Filter by creation date (ISO 8601 format)
+</ParamField>
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "customers": [
+      {
+        "customerId": "cus_h7i8j9k0l1m2",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@example.com",
+        "externalId": "cust_6789",
+        "createdAt": "2025-07-03T12:15:30Z"
+      },
+      {
+        "customerId": "cus_n3o4p5q6r7s8",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@example.com",
+        "externalId": "cust_5678",
+        "createdAt": "2025-07-02T09:45:20Z"
+      }
+    ],
+    "pagination": {
+      "total": 42,
+      "limit": 25,
+      "offset": 0,
+      "hasMore": true
+    }
+  }
+}
+```
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| `customer_not_found` | The specified customer ID does not exist |
+| `payment_method_not_found` | The specified payment method token does not exist |
+| `invalid_card` | The card information is invalid |
+| `expired_card` | The card has expired |
+| `invalid_bank_account` | The bank account information is invalid |
+| `duplicate_email` | A customer with this email already exists |
+| `invalid_data` | The request contains invalid data |
+
+## Security Requirements
+
+<Warning>
+  Customer data is subject to various privacy regulations. Ensure your application handles customer data in compliance with applicable laws such as GDPR, CCPA, etc.
+</Warning>
+
+All requests to the Customer API must include your API key in the Authorization header:
+
+```bash
+Authorization: YOUR_API_KEY
+```
