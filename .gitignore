@@ -1,5 +1,6 @@
 # AuxVault specific files
 requirement.txt
+AUXVault_API_Documentation.markdown
 .windsurf/
 
 # Mintlify build files

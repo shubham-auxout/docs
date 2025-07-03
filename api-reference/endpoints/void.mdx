@@ -3,98 +3,77 @@ title: 'Void Transaction API'
 description: 'Void authorized transactions before they are settled'
 ---
 
-# Void Transaction API
+# Void Transaction
 
-The Void Transaction API allows you to cancel a previously authorized transaction before it has been settled. This is typically used when a customer wants to cancel a purchase shortly after making it, or when an error was made during the transaction process.
-
-<Note>
-  Void operations can only be performed on transactions that have not yet been settled. For settled transactions, use the [Refund API](/api-reference/endpoints/refund) instead.
-</Note>
+This endpoint allows you to void (cancel) a previously processed transaction using the provided transaction details.
 
 ## API Endpoint
+`https://dev-api.auxvault.net/api/v1/public/void`
 
-```
-POST /api/v1/public/void
-```
+**Production Endpoint**: `https://api.auxvault.net/api/v1/public/transaction`
 
 ## Request Parameters
+The request must be a POST request with the following parameters:
 
-<ParamField body="TransactionId" type="string" required>
-  The ID of the transaction to void (must be in an authorized but unsettled state)
-</ParamField>
-
-<ParamField body="Reason" type="string">
-  Optional reason for voiding the transaction
-</ParamField>
-
-<ParamField body="Metadata" type="object">
-  Additional data to store with the void record
-</ParamField>
+| Parameter       | Data Type | Required | Description                   |
+|----------------|-----------|----------|-------------------------------|
+| Reason         | String    | No       | The reason for void           |
+| TransactionFor | String    | Yes      | Void                          |
+| TransactionId  | String    | Yes      | The transaction id            |
 
 ## Example Request
-
 ```json
-{
-  "TransactionId": "txn_a1b2c3d4e5f6",
-  "Reason": "Customer requested cancellation",
-  "Metadata": {
-    "agent_id": "agent_123",
-    "cancellation_code": "CUST_REQ"
-  }
+{ 
+  "Reason": "", 
+  "TransactionFor": "Void", 
+  "TransactionId": "chcfbh46lyu7653qe"
 }
 ```
 
-## Success Response
+## Response
+The response will contain the status, message, and data of the transaction.
 
+| Parameter | Data Type | Description                              |
+|-----------|-----------|------------------------------------------|
+| status    | String    | The status of the transaction            |
+| message   | String    | A message describing the transaction status |
+| data      | Object    | An object containing details of the transaction |
+
+**Example Response**:
 ```json
 {
-  "status": "success",
-  "data": {
-    "transactionId": "txn_a1b2c3d4e5f6",
-    "voidId": "void_g7h8i9j0k1l2",
-    "amount": 99.99,
-    "currency": "USD",
-    "status": "voided",
-    "voidedAt": "2025-07-03T07:30:15Z",
-    "reason": "Customer requested cancellation"
-  }
+    "status": "success",
+    "status_code": 200,
+    "message": "Transaction Void Initiated Successfully",
+    "data": {
+        "TransactionId": "chcfbh46lr8uj3go8t30",
+        "type": "Void"
+    }
 }
 ```
 
 ## Error Codes
+If an error occurs, the response will contain an error code and a message.
 
-| Code | Description |
-|------|-------------|
-| `transaction_not_found` | The specified transaction ID does not exist |
-| `transaction_already_settled` | The transaction has already been settled and cannot be voided |
-| `transaction_already_voided` | The transaction has already been voided |
-| `transaction_already_refunded` | The transaction has already been refunded |
-| `processor_error` | An error occurred with the payment processor |
-| `invalid_data` | The request contains invalid data |
+| Error Code | Description               |
+|------------|---------------------------|
+| 400        | Bad Request               |
+| 401        | Unauthorized              |
+| 403        | Forbidden                 |
+| 404        | Not Found                 |
+| 500        | Internal Server Error     |
 
 ## Security
+To access this API endpoint, you will need to provide an API key in the header:
 
-All requests to the Void Transaction API must include your API key in the Authorization header:
-
-```bash
-Authorization: YOUR_API_KEY
+```javascript
+var request = { 
+  method: "post", 
+  url: "https://dev-api.auxvault.net/api/v1/public/void", 
+  headers: { 
+    "Content-Type": "application/json", 
+    "Authorization": "APIKEY"
+  }, 
+  data: data
+}
 ```
-
-## Void vs. Refund
-
-<Accordion title="Understanding Void vs. Refund">
-  <p>It's important to understand the difference between voiding a transaction and refunding a transaction:</p>
-  
-  <ul>
-    <li><strong>Void</strong>: Cancels an authorization before it is settled. No funds have actually moved, so the customer will never see the charge on their statement. This is typically completed instantly.</li>
-    <li><strong>Refund</strong>: Returns funds to a customer after a transaction has been settled. The customer will see both the original charge and the refund on their statement. This process typically takes 2-5 business days for the funds to be returned to the customer's account.</li>
-  </ul>
-  
-  <p>When possible, voiding is preferable to refunding because:</p>
-  
-  <ul>
-    <li>It's faster for the customer</li>
-    <li>It avoids processing fees associated with refunds</li>
-    <li>It creates a cleaner customer experience (no charge appears on their statement)</li>
-  </ul>
-</Accordion>

@@ -1,134 +1,92 @@
 ---
 title: 'Token Transaction API'
-description: 'Process transactions using stored payment tokens'
+description: 'Process transactions using previously tokenized payment methods'
 ---
 
-# Token Transaction API
+# Token Transaction
 
-The Token Transaction API allows you to process payments using previously stored payment methods (tokens) instead of requiring customers to re-enter their payment information for each transaction. This improves the customer experience and reduces the risk of handling sensitive payment data.
+This endpoint enables you to process transactions using previously tokenized payment methods securely.
 
 ## API Endpoint
-
-```
-POST /api/v1/public/token-transaction
-```
+`https://dev-api.auxvault.net/api/v1/public/token-transaction`
 
 ## Request Parameters
+The request must be a POST request with the following parameters:
 
-<ParamField body="PaymentToken" type="string" required>
-  The token representing the stored payment method
-</ParamField>
-
-<ParamField body="Amount" type="number" required>
-  Transaction amount in dollars (e.g., 10.99)
-</ParamField>
-
-<ParamField body="Currency" type="string" default="USD">
-  Three-letter ISO currency code
-</ParamField>
-
-<ParamField body="CVV" type="string">
-  Card verification value (for card tokens only). While optional, providing the CVV even for tokenized transactions is recommended for better security and lower processing fees.
-</ParamField>
-
-<ParamField body="Description" type="string">
-  Description of the transaction
-</ParamField>
-
-<ParamField body="OrderId" type="string">
-  Your system's order identifier
-</ParamField>
-
-<ParamField body="CustomerId" type="string">
-  Your system's customer identifier
-</ParamField>
-
-<ParamField body="Metadata" type="object">
-  Additional data to store with the transaction
-</ParamField>
+| Parameter            | Data Type | Required | Description                    |
+|---------------------|-----------|----------|--------------------------------|
+| Amount              | Decimal   | Yes      | The amount of the recurring    |
+| ConvenienceFeeActive| Boolean   | Yes      | For adding the fee             |
+| Description         | String    | No       | Purpose of transaction         |
+| GatewayCustomerId   | String    | Yes      | For internal purpose           |
+| ReferenceNo         | String    | No       | For transaction reference      |
+| TokenId             | String    | Yes      | For internal purpose           |
 
 ## Example Request
-
 ```json
 {
-  "PaymentToken": "tok_s9t8u7v6w5x4",
-  "Amount": 49.99,
-  "Currency": "USD",
-  "CVV": "123",
-  "Description": "Monthly subscription renewal",
-  "OrderId": "order_54321",
-  "CustomerId": "cust_6789",
-  "Metadata": {
-    "subscription_id": "sub_123",
-    "billing_period": "July 2025"
-  }
+  "Amount": "10",
+  "ConvenienceFeeActive": true,
+  "Description": "test",
+  "GatewayCustomerId": "d0h93vn0i47dbksokv70",
+  "ReferenceNo": "1123",
+  "TokenId": "d0h93vn0i47dbksokv70"
 }
 ```
 
-## Success Response
+## Response
+The response will contain the status, message, and data of the transaction.
 
+| Parameter | Data Type | Description                              |
+|-----------|-----------|------------------------------------------|
+| status    | String    | The status of the transaction            |
+| message   | String    | A message describing the transaction status |
+| data      | Object    | An object containing details of the transaction |
+
+**Example Response**:
 ```json
 {
   "status": "success",
+  "status_code": 200,
+  "message": "Transaction Processed Successfully",
   "data": {
-    "transactionId": "txn_b2c3d4e5f6g7",
-    "amount": 49.99,
-    "currency": "USD",
-    "status": "approved",
-    "authCode": "654321",
-    "paymentMethod": {
-      "type": "card",
-      "brand": "Visa",
-      "last4": "1111",
-      "expirationMonth": "12",
-      "expirationYear": "2026"
-    },
-    "createdAt": "2025-07-03T11:20:45Z",
-    "orderId": "order_54321",
-    "customerId": "cust_6789"
+    "TransactionId": "d0hkp170i47dbksons00",
+    "BaseAmount": 10,
+    "Amount": 10,
+    "CardNumber": "4242",
+    "BillingEmail": "xxxxxxxxxxxx@gmail.com",
+    "BillingCustomerName": "xxxxxxxxxxxxx",
+    "BillingAddress": "",
+    "BillingCity": "",
+    "BillingPostalCode": "54321",
+    "BillingPhoneNumber": "8976732233",
+    "ExpiryDate": "1225"
   }
 }
 ```
 
 ## Error Codes
+If an error occurs, the response will contain an error code and a message.
 
-| Code | Description |
-|------|-------------|
-| `invalid_token` | The payment token is invalid or expired |
-| `token_not_found` | The payment token does not exist |
-| `insufficient_funds` | The payment method has insufficient funds |
-| `declined` | The transaction was declined by the issuing bank |
-| `processor_error` | An error occurred with the payment processor |
-| `invalid_data` | The request contains invalid data |
-| `duplicate_transaction` | A transaction with the same parameters was recently processed |
-
-## Token Security
-
-<Warning>
-  Payment tokens have the following security characteristics:
-  
-  - Tokens are specific to your merchant account and cannot be used with other merchants
-  - Tokens expire after 5 years or when the associated payment method expires (whichever comes first)
-  - For PCI compliance, tokens should be treated as sensitive data and stored securely
-</Warning>
-
-## Card Network Rules
-
-<Accordion title="Card Network Token Requirements">
-  <p>When using tokens for card transactions, be aware of the following card network rules:</p>
-  
-  <ul>
-    <li><strong>Card Verification Value (CVV)</strong>: While the CVV is optional for token transactions, providing it can result in lower processing fees and reduced fraud. The CVV is never stored with the token.</li>
-    <li><strong>Address Verification Service (AVS)</strong>: The billing address is stored with the token, but you can provide an updated billing address with each transaction if needed.</li>
-    <li><strong>Card Updates</strong>: If a customer's card is reissued with a new expiration date but the same number, AuxVault's automatic card updater service will update the token information when possible.</li>
-    <li><strong>Network Tokenization</strong>: For enhanced security and potentially lower interchange rates, AuxVault supports network tokens from Visa, Mastercard, and American Express.</li>
-  </ul>
-</Accordion>
+| Error Code | Description               |
+|------------|---------------------------|
+| 400        | Bad Request               |
+| 401        | Unauthorized              |
+| 403        | Forbidden                 |
+| 404        | Not Found                 |
+| 500        | Internal Server Error     |
 
 ## Security
+To access this API endpoint, you will need to provide an API key in the header:
 
-All requests to the Token Transaction API must include your API key in the Authorization header:
-
-```bash
-Authorization: YOUR_API_KEY
+```javascript
+var request = { 
+  method: "post", 
+  url: "https://dev-api.auxvault.net/api/v1/public/token-transaction", 
+  headers: { 
+    "Content-Type": "application/json", 
+    "authorization": "APIKEY"
+  }, 
+  data: data
+}
 ```
