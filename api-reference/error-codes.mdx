@@ -5,44 +5,44 @@ description: 'Reference for transaction error codes and test card details'
 
 ## Transaction Error Codes
 
-| Response Code | Processor | Definition | Description |
-|---------------|----------|------------|-------------|
-| 0             | Unknown  | Unknown, please contact support for more information | |
-| 99            |          | Pending payment | Used in redirect processors prior to payment being received |
-| 100           |          | Approved | Transaction was successfully approved |
-| 110           |          | Partial approval | Transaction was successfully approved, but for a lesser amount |
-| 101           |          | Approved, pending customer approval | Transaction is pending customer approval before release |
-| 200           |          | Decline | Generic decline with no additional information provided by the issuer |
-| 201           |          | Do not honor | Generic decline with no additional information provided by the issuer |
-| 202           |          | Insufficient funds | Declined for insufficient funds |
-| 203           |          | Exceeds withdrawn limit | Declined for exceeding a withdrawn limit set by the issuer |
-| 204           |          | Invalid Transaction | Declined as the issuer does not recognize the transaction |
-| 205           |          | SCA Decline | Soft Decline indicating that a SCA challenge is required |
-| 220           |          | Invalid Amount | Provided amount is not supported by the issuer |
-| 221           |          | No such Issuer | The issuing bank can not be found |
-| 222           |          | No credit Acct | Invalid credit card number |
-| 223           |          | Expired Card | Credit card as expired and can not be processed |
-| 225           |          | Invalid CVC | Invalid CVC or CVV2 value has been provided |
-| 226           |          | Cannot Verify Pin | Card requires PIN |
-| 240           |          | Refer to issuer | Generic decline by the issuing bank |
-| 250           |          | Pick up card (no fraud) | Decline where issuer is requesting the merchant hold the card |
-| 251           |          | Lost card, pick up (fraud account) | Decline where issuer is requesting the merchant hold the card |
-| 252           |          | Stolen card, pick up (fraud account) | Decline where issuer is requesting the merchant hold the card |
-| 253           |          | Pick up card, special condition | Decline where issuer is requesting the merchant hold the card |
-| 261           |          | Stop recurring | Decline requesting recurring be stopped |
-| 262           |          | Stop recurring | Decline requesting recurring be stopped |
-| 300           |          | Gateway Decline | Generic Platform decline |
-| 301           |          | Gateway Decline - Duplicate Transaction | The gateway detected this as a duplicate transaction. Order ID, payment type, amount and payment method are used to detect duplicate transactions |
-| 310           |          | Gateway Decline - Rule Engine | Platform has declined based on a fraud rule |
-| 320           |          | Gateway Decline - Chargeback | The transaction was declined because the previous transaction was charged back |
-| 321           |          | Gateway Decline - Stop Fraud | The transaction was declined because the customer record has been flagged as "stop_fraud" |
-| 322           |          | Gateway Decline - Closed Contact | The transaction was declined because the customer record has been flagged as "closed_contact" |
-| 323           |          | Gateway Decline - Stop Recurring | The transaction was declined because the customer record has been flagged as "stop_recurring" |
-| 400           |          | Transaction error returned by processor | Generic error returned from the processor |
-| 410           |          | Invalid merchant configuration | Configuration error returned from the processor |
-| 421           |          | Communication error with processor | Processor is unreachable |
-| 430           |          | Duplicate transaction at processor | Processor is seeing this as a duplicate transaction |
-| 440           |          | Processor Format error | Processor has indicated that there is a formating error |
+| Response Code | Definition | Description |
+|---------------|------------|-------------|
+| 0             | Unknown, please contact support for more information | |
+| 99            | Pending payment | Used in redirect processors prior to payment being received |
+| 100           | Approved | Transaction was successfully approved |
+| 110           | Partial approval | Transaction was successfully approved, but for a lesser amount |
+| 101           | Approved, pending customer approval | Transaction is pending customer approval before release |
+| 200           | Decline | Generic decline with no additional information provided by the issuer |
+| 201           | Do not honor | Generic decline with no additional information provided by the issuer |
+| 202           | Insufficient funds | Declined for insufficient funds |
+| 203           | Exceeds withdrawn limit | Declined for exceeding a withdrawn limit set by the issuer |
+| 204           | Invalid Transaction | Declined as the issuer does not recognize the transaction |
+| 205           | SCA Decline | Soft Decline indicating that a SCA challenge is required |
+| 220           | Invalid Amount | Provided amount is not supported by the issuer |
+| 221           | No such Issuer | The issuing bank can not be found |
+| 222           | No credit Acct | Invalid credit card number |
+| 223           | Expired Card | Credit card as expired and can not be processed |
+| 225           | Invalid CVC | Invalid CVC or CVV2 value has been provided |
+| 226           | Cannot Verify Pin | Card requires PIN |
+| 240           | Refer to issuer | Generic decline by the issuing bank |
+| 250           | Pick up card (no fraud) | Decline where issuer is requesting the merchant hold the card |
+| 251           | Lost card, pick up (fraud account) | Decline where issuer is requesting the merchant hold the card |
+| 252           | Stolen card, pick up (fraud account) | Decline where issuer is requesting the merchant hold the card |
+| 253           | Pick up card, special condition | Decline where issuer is requesting the merchant hold the card |
+| 261           | Stop recurring | Decline requesting recurring be stopped |
+| 262           | Stop recurring | Decline requesting recurring be stopped |
+| 300           | Gateway Decline | Generic Platform decline |
+| 301           | Gateway Decline - Duplicate Transaction | The gateway detected this as a duplicate transaction. Order ID, payment type, amount and payment method are used to detect duplicate transactions |
+| 310           | Gateway Decline - Rule Engine | Platform has declined based on a fraud rule |
+| 320           | Gateway Decline - Chargeback | The transaction was declined because the previous transaction was charged back |
+| 321           | Gateway Decline - Stop Fraud | The transaction was declined because the customer record has been flagged as "stop_fraud" |
+| 322           | Gateway Decline - Closed Contact | The transaction was declined because the customer record has been flagged as "closed_contact" |
+| 323           | Gateway Decline - Stop Recurring | The transaction was declined because the customer record has been flagged as "stop_recurring" |
+| 400           | Transaction error returned by processor | Generic error returned from the processor |
+| 410           | Invalid merchant configuration | Configuration error returned from the processor |
+| 421           | Communication error with processor | Processor is unreachable |
+| 430           | Duplicate transaction at processor | Processor is seeing this as a duplicate transaction |
+| 440           | Processor Format error | Processor has indicated that there is a formating error |
 
 ## Test Card Details
 
