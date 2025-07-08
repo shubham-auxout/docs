@@ -3,41 +3,47 @@ title: 'Refund Transaction API'
 description: 'Process refunds for settled transactions'
 ---
 
-This endpoint enables you to process a refund for a transaction with the provided details.
+This endpoint enables you to process a full or partial refund for a previously settled transaction.
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/refund`
+<Endpoint method="POST" url="https://dev-api.auxvault.net/api/v1/public/refund">
 
-## Request Parameters
-The request must be a POST request with the following parameters:
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-| Parameter       | Data Type | Required | Description                   |
-|----------------|-----------|----------|-------------------------------|
-| Amount         | String    | Yes      | The amount of the transaction |
-| Reason         | String    | No       | The reason for refund         |
-| TransactionFor | String    | Yes      | FullRefund / PartialRefund    |
-| TransactionId  | String    | Yes      | The transaction id            |
+<ParamField body="TransactionId" type="string" required>
+  The unique identifier of the transaction to be refunded.
+</ParamField>
+
+<ParamField body="TransactionFor" type="string" required>
+  The type of refund. Can be `FullRefund` or `PartialRefund`.
+</ParamField>
+
+<ParamField body="Amount" type="string" required>
+  The amount to be refunded. For a `PartialRefund`, this must be less than or equal to the original transaction amount.
+</ParamField>
+
+<ParamField body="Reason" type="string">
+  An optional reason for the refund.
+</ParamField>
+
+</Endpoint>
 
 ## Example Request
+
 ```json
 { 
-  "Amount": "100",
-  "Reason": "", 
-  "TransactionFor": "Refund", 
-  "TransactionId": "chcfbh46lyu7653qe"
+  "TransactionId": "chcfbh46lyu7653qe",
+  "TransactionFor": "PartialRefund",
+  "Amount": "10.00",
+  "Reason": "Customer requested a partial refund."
 }
 ```
 
-## Response
-The response will contain the status, message, and data of the transaction.
+## Example Response (Success)
 
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
+<Response status="200">
 
-**Example Response**:
 ```json
 {
     "status": "success",
@@ -63,34 +69,19 @@ The response will contain the status, message, and data of the transaction.
         "Status": "1"
     }
 }
+```
+
+</Response>
+
+## Example Response (Error)
+
+<Response status="400">
+
+```json
 {
-   "status_code": 500,
+   "status_code": 400,
    "message": "bad request error: refund amount must not be greater than the previously settled amount"
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "post", 
-  url: "https://dev-api.auxvault.net/api/v1/public/refund", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "Authorization": "APIKEY"
-  }, 
-  data: data
-}
-```
+</Response>

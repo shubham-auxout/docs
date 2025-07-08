@@ -3,6 +3,19 @@ title: 'Error Codes & Test Cards'
 description: 'Reference for transaction error codes and test card details'
 ---
 
+The AuxVault API uses standard HTTP status codes to indicate the success or failure of a request. In addition to the HTTP code, the response body will often contain a more specific `Response Code` with details about the transaction status.
+
+## API Response Codes
+
+| Status Code | Meaning | Description |
+| :--- | :--- | :--- |
+| `200` | **OK** | The request was successful. |
+| `400` | **Bad Request** | The request was malformed, such as having missing or invalid parameters. |
+| `401` | **Unauthorized** | The request is missing a valid API key. |
+| `403` | **Forbidden** | You do not have permission to access this resource. |
+| `404` | **Not Found** | The requested resource could not be found. |
+| `500` | **Internal Server Error** | An unexpected error occurred on our servers. |
+
 ## Transaction Error Codes
 
 | Response Code | Definition | Description |

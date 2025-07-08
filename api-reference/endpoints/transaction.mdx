@@ -5,46 +5,124 @@ description: 'Process card and ACH transactions through the AuxVault platform'
 
 The `/transaction` endpoint allows merchants to process **Card** or **ACH** transactions using AUXVAULT's public API. The API supports one-time sale or authorization-based payments and can optionally tokenize payment methods for future use.
 
-## Card Transaction
+<Endpoint method="POST" url="https://dev-api.auxvault.net/api/v1/public/transaction">
 
-### API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/transaction`
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-### Request Parameters
+<ParamField body="Amount" type="decimal" required>
+  The amount of the transaction.
+</ParamField>
 
-The request must be a POST request with the following parameters:
+<ParamField body="BillingAddress" type="string">
+  The billing address.
+</ParamField>
 
-| Parameter              | Data Type | Required | Description                                |
-|------------------------|-----------|----------|--------------------------------------------|  
-| Amount                | Decimal   | Yes      | The amount of the transaction              |
-| BillingAddress        | String    | No       | The billing addresses                      |
-| BillingCity           | String    | No       | The billing city                           |
-| BillingCountry        | Integer   | Yes      | The billing country                        |
-| BillingCountryCode    | String    | Yes      | The billing country code                   |
-| BillingCustomerName   | String    | Yes      | The name of the billing customer           |
-| BillingEmail          | String    | Yes      | The billing email                          |
-| BillingPhoneNumber    | String    | Yes      | The billing phone number                   |
-| BillingPostalCode     | String    | Yes      | The billing postal code                    |
-| BillingState          | Integer   | No       | The billing state                          |
-| ShippingSameAsBilling | Boolean   | No       | For differentiating address                |
-| ShippingCustomerName  | String    | No       | The name of the shipping customer          |
-| ShippingEmail         | String    | No       | Email address of shipping customer         |
-| ShippingPhoneNumber   | String    | No       | Phone number of shipping customer          |
-| ShippingAddress       | String    | No       | The shipping Address                       |
-| ShippingCountry       | String    | No       | Shipping country                           |
-| ShippingCity          | String    | No       | Shipping city                              |
-| ShippingState         | String    | No       | Shipping state                             |
-| ShippingPostalCode    | String    | No       | Shipping postal code                       |
-| CardNumber            | String    | Yes      | The card number                            |
-| Cvv                   | String    | Yes      | The card verification value                |
-| ExpiryDate            | String    | Yes      | The card expiry date                       |
-| SuggestedMode         | String    | Yes      | The suggested payment mode || Card         |
-| ConvenienceFeeActive  | Boolean   | Yes      | Whether or not to activate the convenience fee || true / false |
-| TransactionType       | String    | No       | The transaction type is 1 means it is Sale and transaction type is 2 means it is Auth transaction |
-| PaymentTokenization   | Boolean   | No       | For tokenization of the card/ach details for future payments |
-| IpAddress             | String    | Yes      | IPv4 or IPv6 value of the end user         |
+<ParamField body="BillingCity" type="string">
+  The billing city.
+</ParamField>
 
-### Example Request
+<ParamField body="BillingCountry" type="integer" required>
+  The billing country.
+</ParamField>
+
+<ParamField body="BillingCountryCode" type="string" required>
+  The billing country code.
+</ParamField>
+
+<ParamField body="BillingCustomerName" type="string" required>
+  The name of the billing customer.
+</ParamField>
+
+<ParamField body="BillingEmail" type="string" required>
+  The billing email address.
+</ParamField>
+
+<ParamField body="BillingPhoneNumber" type="string" required>
+  The billing phone number.
+</ParamField>
+
+<ParamField body="BillingPostalCode" type="string" required>
+  The billing postal code.
+</ParamField>
+
+<ParamField body="BillingState" type="integer">
+  The billing state.
+</ParamField>
+
+<ParamField body="ShippingSameAsBilling" type="boolean">
+  Set to `true` if shipping address is the same as billing address.
+</ParamField>
+
+<ParamField body="ShippingCustomerName" type="string">
+  The name of the shipping customer.
+</ParamField>
+
+<ParamField body="ShippingEmail" type="string">
+  Email address of the shipping customer.
+</ParamField>
+
+<ParamField body="ShippingPhoneNumber" type="string">
+  Phone number of the shipping customer.
+</ParamField>
+
+<ParamField body="ShippingAddress" type="string">
+  The shipping address.
+</ParamField>
+
+<ParamField body="ShippingCountry" type="string">
+  The shipping country.
+</ParamField>
+
+<ParamField body="ShippingCity" type="string">
+  The shipping city.
+</ParamField>
+
+<ParamField body="ShippingState" type="string">
+  The shipping state.
+</ParamField>
+
+<ParamField body="ShippingPostalCode" type="string">
+  The shipping postal code.
+</ParamField>
+
+<ParamField body="CardNumber" type="string" required>
+  The card number.
+</ParamField>
+
+<ParamField body="Cvv" type="string" required>
+  The card verification value (CVV).
+</ParamField>
+
+<ParamField body="ExpiryDate" type="string" required>
+  The card expiry date in MM/YY format.
+</ParamField>
+
+<ParamField body="SuggestedMode" type="string" required>
+  The suggested payment mode (e.g., "Card").
+</ParamField>
+
+<ParamField body="ConvenienceFeeActive" type="boolean" required>
+  Set to `true` to activate the convenience fee.
+</ParamField>
+
+<ParamField body="TransactionType" type="string">
+  `1` for Sale, `2` for Authorization.
+</ParamField>
+
+<ParamField body="PaymentTokenization" type="boolean">
+  Set to `true` to tokenize the payment method for future use.
+</ParamField>
+
+<ParamField body="IpAddress" type="string" required>
+  IPv4 or IPv6 address of the end user.
+</ParamField>
+
+</Endpoint>
+
+## Example Request
+
 ```json
 { 
   "Amount": 1000, 
@@ -54,7 +132,7 @@ The request must be a POST request with the following parameters:
   "BillingCountryCode": "+1",
   "BillingCustomerName": "xxxxxxxxxxxxx", 
   "BillingEmail": "xxxxxxxxxxxx@gmail.com", 
-  "BillingPhoneNumber": "897>void 8976732233", 
+  "BillingPhoneNumber": "8976732233", 
   "BillingPostalCode": "54321", 
   "BillingState": "", 
   "CardNumber": "4242424242424242", 
@@ -68,17 +146,10 @@ The request must be a POST request with the following parameters:
 }
 ```
 
-### Response
-The response will contain the status, message, and data of the transaction.
+## Example Response
 
-| Parameter     | Data Type | Description                              |
-|---------------|-----------|------------------------------------------|
-| status        | String    | The status of the transaction            |
-| status_code   | Integer   | For identify the response                |
-| message       | String    | A message describing the transaction status |
-| data          | Object    | An object containing details of the transaction |
+<Response>
 
-**Example Response**:
 ```json
 {
     "status": "success",
@@ -104,77 +175,8 @@ The response will contain the status, message, and data of the transaction.
 }
 ```
 
-### Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-### Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "post", 
-  url: "https://dev-api.auxvault.net/api/v1/public/transaction", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "Authorization": "APIKEY"
-  }, 
-  data: data
-}
-```
-
-### Transaction Status Codes
-
-| Status              | Value |
-|---------------------|-------|
-| Pending             | 0     |
-| Approved            | 1     |
-| Failed              | 2     |
-| Captured            | 3     |
-| Settled             | 4     |
-| Partially Returned  | 5     |
-| Initiated           | 6     |
-| Payment Captured    | 7     |
-| Voided              | 8     |
-| Declined            | 9     |
-| Fully Returned      | 10    |
-| Paid Out            | 11    |
-| Reversed            | 12    |
-| Chargeback          | 13    |
+</Response>
 
 ## ACH Transaction
 
 Currently, we do not share ACH transaction details via this API. If you require ACH transaction data, please contact our support team.
-
-### Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-### Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "post", 
-  url: "https://dev-api.auxvault.net/api/v1/public/transaction", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "Authorization": "APIKEY"
-  }, 
-  data: data
-}
-```

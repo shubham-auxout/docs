@@ -3,45 +3,57 @@ title: 'Token Transaction API'
 description: 'Process transactions using previously tokenized payment methods'
 ---
 
-This endpoint enables you to process transactions using previously tokenized payment methods securely.
+This endpoint enables you to process transactions using a previously generated token, providing a secure way to handle recurring or future payments without storing sensitive card details.
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/token-transaction`
+<Endpoint method="POST" url="https://dev-api.auxvault.net/api/v1/public/token-transaction">
 
-## Request Parameters
-The request must be a POST request with the following parameters:
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-| Parameter            | Data Type | Required | Description                    |
-|---------------------|-----------|----------|--------------------------------|
-| Amount              | Decimal   | Yes      | The amount of the recurring    |
-| ConvenienceFeeActive| Boolean   | Yes      | For adding the fee             |
-| Description         | String    | No       | Purpose of transaction         |
-| GatewayCustomerId   | String    | Yes      | For internal purpose           |
-| ReferenceNo         | String    | No       | For transaction reference      |
-| TokenId             | String    | Yes      | For internal purpose           |
+<ParamField body="TokenId" type="string" required>
+  The unique token representing the customer's payment method.
+</ParamField>
+
+<ParamField body="GatewayCustomerId" type="string" required>
+  The customer identifier from the payment gateway.
+</ParamField>
+
+<ParamField body="Amount" type="decimal" required>
+  The amount to be charged for the transaction.
+</ParamField>
+
+<ParamField body="ConvenienceFeeActive" type="boolean" required>
+  Set to `true` to apply a convenience fee to the transaction.
+</ParamField>
+
+<ParamField body="Description" type="string">
+  An optional description for the transaction.
+</ParamField>
+
+<ParamField body="ReferenceNo" type="string">
+  An optional reference number for your internal tracking.
+</ParamField>
+
+</Endpoint>
 
 ## Example Request
+
 ```json
 {
-  "Amount": "10",
-  "ConvenienceFeeActive": true,
-  "Description": "test",
+  "TokenId": "d0h93vn0i47dbksokv70",
   "GatewayCustomerId": "d0h93vn0i47dbksokv70",
-  "ReferenceNo": "1123",
-  "TokenId": "d0h93vn0i47dbksokv70"
+  "Amount": "10.00",
+  "ConvenienceFeeActive": true,
+  "Description": "Monthly Subscription",
+  "ReferenceNo": "INV-12345"
 }
 ```
 
-## Response
-The response will contain the status, message, and data of the transaction.
+## Example Response
 
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
+<Response>
 
-**Example Response**:
 ```json
 {
   "status": "success",
@@ -63,28 +75,4 @@ The response will contain the status, message, and data of the transaction.
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "post", 
-  url: "https://dev-api.auxvault.net/api/v1/public/token-transaction", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "authorization": "APIKEY"
-  }, 
-  data: data
-}
-```
+</Response>

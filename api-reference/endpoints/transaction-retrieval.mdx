@@ -3,37 +3,40 @@ title: 'Transaction Retrieval API'
 description: 'Retrieve transaction records'
 ---
 
-This endpoint returns a list of transactions filtered by the provided criteria.
+<Endpoint method="POST" url="https://dev-api.auxvault.net/api/v1/public/transaction-list">
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/transaction-list`
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-## Request Parameters
-The request must be a POST request with the following parameters:
+<ParamField body="sort" type="string">
+  Sort order for the results. Can be `asc` or `desc`.
+</ParamField>
 
-| Parameter | Data Type         | Required | Description          |
-|-----------|-------------------|----------|----------------------|
-| sort      | String (asc / desc) | No       | for sorting the order |
-| page      | Integer           | No       | For page number      |
-| perPage   | Integer           | No       | For data count       |
+<ParamField body="page" type="integer">
+  The page number for pagination.
+</ParamField>
+
+<ParamField body="perPage" type="integer">
+  The number of items to return per page.
+</ParamField>
+
+</Endpoint>
 
 ## Example Request
+
 ```json
 {
-  "req.query": "sort=\"\"&page=\"\"&perPage=\"\""
+  "sort": "desc",
+  "page": 1,
+  "perPage": 10
 }
 ```
 
-## Response
-The response will contain the status, message, and data of the transaction.
+## Example Response
 
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
+<Response>
 
-**Example Response**:
 ```json
 {
   "status_code": 200,
@@ -85,62 +88,28 @@ The response will contain the status, message, and data of the transaction.
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "get", 
-  url: "https://dev-api.auxvault.net/api/v1/public/transaction-list?params", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "authorization": "APIKEY"
-  }
-}
-```
+</Response>
 
 # Transaction Details
 
 This endpoint retrieves detailed information for a specific transaction, identified by its unique transaction ID.
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/transaction/8da564d1-c993-4631-8be9-212e79218052`
+<Endpoint method="GET" url="https://dev-api.auxvault.net/api/v1/public/transaction/:id">
 
-## Request Parameters
-The request must be a POST request with the following parameters:
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-| Parameter | Data Type | Required | Description                    |
-|-----------|-----------|----------|--------------------------------|
-| id        | String    | Yes      | for getting the transaction details |
+<ParamField type="path" name="id" required>
+  The unique identifier for the transaction.
+</ParamField>
 
-## Example Request
-```json
-{
-  "req.params": "id"
-}
-```
+</Endpoint>
 
-## Response
-The response will contain the status, message, and data of the transaction.
+## Example Response (Success)
 
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
+<Response status="200">
 
-**Example Response**:
 ```json
 {
   "status_code": 200,
@@ -184,37 +153,20 @@ The response will contain the status, message, and data of the transaction.
 }
 ```
 
+</Response>
+
+## Example Response (Not Found)
+
+<Response status="404">
+
 ```json
 {
-  "status_code": 400,
+  "status_code": 404,
   "message": "Transaction not found."
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "get", 
-  url: "https://dev-api.auxvault.net/api/v1/public/transaction/8da564d1-c993-4631-8be9-212e79218052", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "authorization": "APIKEY"
-  }
-}
-```
+</Response>
 
 # Common Error Responses
 

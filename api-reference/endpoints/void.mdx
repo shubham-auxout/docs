@@ -3,41 +3,44 @@ title: 'Void Transaction API'
 description: 'Void authorized transactions before they are settled'
 ---
 
-This endpoint allows you to void (cancel) a previously processed transaction using the provided transaction details.
+This endpoint allows you to void (cancel) a previously authorized transaction before it settles.
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/void`
+**Note**: The production endpoint for this operation is `https://api.auxvault.net/api/v1/public/transaction`.
 
-**Production Endpoint**: `https://api.auxvault.net/api/v1/public/transaction`
+<Endpoint method="POST" url="https://dev-api.auxvault.net/api/v1/public/void">
 
-## Request Parameters
-The request must be a POST request with the following parameters:
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-| Parameter       | Data Type | Required | Description                   |
-|----------------|-----------|----------|-------------------------------|
-| Reason         | String    | No       | The reason for void           |
-| TransactionFor | String    | Yes      | Void                          |
-| TransactionId  | String    | Yes      | The transaction id            |
+<ParamField body="TransactionId" type="string" required>
+  The unique identifier of the transaction to be voided.
+</ParamField>
+
+<ParamField body="TransactionFor" type="string" required>
+  The type of transaction. Must be set to `Void`.
+</ParamField>
+
+<ParamField body="Reason" type="string">
+  An optional reason for voiding the transaction.
+</ParamField>
+
+</Endpoint>
 
 ## Example Request
+
 ```json
 { 
-  "Reason": "", 
-  "TransactionFor": "Void", 
-  "TransactionId": "chcfbh46lyu7653qe"
+  "TransactionId": "chcfbh46lyu7653qe",
+  "TransactionFor": "Void",
+  "Reason": "Customer request"
 }
 ```
 
-## Response
-The response will contain the status, message, and data of the transaction.
+## Example Response
 
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
+<Response>
 
-**Example Response**:
 ```json
 {
     "status": "success",
@@ -50,28 +53,4 @@ The response will contain the status, message, and data of the transaction.
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "post", 
-  url: "https://dev-api.auxvault.net/api/v1/public/void", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "Authorization": "APIKEY"
-  }, 
-  data: data
-}
-```
+</Response>

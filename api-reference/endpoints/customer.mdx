@@ -3,27 +3,58 @@ title: 'Customer API'
 description: 'Create and manage customer profiles'
 ---
 
-This endpoint allows you to create a new customer profile in the system.
+This section provides endpoints for creating, retrieving, and managing customer profiles in the AuxVault system.
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/customer`
+## Create Customer
 
-## Request Parameters
-The request must be a POST request with the following parameters:
+This endpoint allows you to create a new customer profile.
 
-| Parameter   | Data Type | Required | Description                    |
-|-------------|-----------|----------|--------------------------------|
-| CustomerName| String    | Yes      | Full name of the customer      |
-| Email       | String    | Yes      | Email address of the customer  |
-| PhoneNumber | String    | Yes      | Phone number of the customer   |
-| Address     | String    | No       | Street address of the customer |
-| City        | String    | No       | City of the customer           |
-| PostalCode  | String    | No       | Postal code of the customer    |
-| StateId     | Integer   | No       | State ID of the customer       |
-| CountryId   | Integer   | Yes      | Country ID of the customer     |
-| CountryCode | String    | Yes      | Country code (e.g., +1 for US) |
+<Endpoint method="POST" url="https://dev-api.auxvault.net/api/v1/public/customer">
 
-## Example Request
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
+
+<ParamField body="CustomerName" type="string" required>
+  The full name of the customer.
+</ParamField>
+
+<ParamField body="Email" type="string" required>
+  The email address of the customer.
+</ParamField>
+
+<ParamField body="PhoneNumber" type="string" required>
+  The phone number of the customer.
+</ParamField>
+
+<ParamField body="CountryId" type="integer" required>
+  The ID of the customer's country.
+</ParamField>
+
+<ParamField body="CountryCode" type="string" required>
+  The country code for the phone number (e.g., `+1` for the US).
+</ParamField>
+
+<ParamField body="Address" type="string">
+  The street address of the customer.
+</ParamField>
+
+<ParamField body="City" type="string">
+  The city of the customer.
+</ParamField>
+
+<ParamField body="PostalCode" type="string">
+  The postal code of the customer.
+</ParamField>
+
+<ParamField body="StateId" type="integer">
+  The ID of the customer's state.
+</ParamField>
+
+</Endpoint>
+
+### Example Request
+
 ```json
 {
   "CustomerName": "John Doe",
@@ -38,16 +69,10 @@ The request must be a POST request with the following parameters:
 }
 ```
 
-## Response
-The response will contain the status, message, and data of the transaction.
+### Example Response
 
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
+<Response>
 
-**Example Response**:
 ```json
 {
   "status_code": 200,
@@ -69,71 +94,53 @@ The response will contain the status, message, and data of the transaction.
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
+</Response>
 
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 500        | Internal Server Error     |
+---
 
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
+## Customer List
 
-```javascript
-var request = { 
-  method: "post", 
-  url: "https://dev-api.auxvault.net/api/v1/public/customer", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "authorization": "APIKEY"
-  },
-  data: JSON.stringify({
-    "CustomerName": "John Doe",
-    "Email": "john.doe@example.com",
-    "PhoneNumber": "1234567890",
-    "CountryId": 1,
-    "CountryCode": "+1"
-  })
-}
-```
+This endpoint retrieves a paginated list of all customers associated with your account, with options for sorting and searching.
 
-# Customer List
+<Endpoint method="POST" url="https://dev-api.auxvault.net/api/v1/public/customers">
 
-This endpoint retrieves a list of all customers associated with your account.
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/customers`
+<ParamField body="search" type="string">
+  A search term to filter customers by name or email.
+</ParamField>
 
-## Request Parameters
-The request must be a POST request with the following parameters:
+<ParamField body="sort" type="string">
+  The sorting order for the results. Can be `asc` or `desc`.
+</ParamField>
 
-| Parameter | Data Type         | Required | Description          |
-|-----------|-------------------|----------|----------------------|
-| sort      | String (asc / desc) | No       | for sorting the order |
-| page      | Integer           | No       | For page number      |
-| perPage   | Integer           | No       | For data count       |
-| search    | String            | No       | For search           |
+<ParamField body="page" type="integer">
+  The page number for pagination.
+</ParamField>
 
-## Example Request
+<ParamField body="perPage" type="integer">
+  The number of results to return per page.
+</ParamField>
+
+</Endpoint>
+
+### Example Request
+
 ```json
 {
-  "req.query": "sort=\"\"&page=\"\"&perPage=\"\"&search=\"\""
+  "search": "John",
+  "sort": "asc",
+  "page": 1,
+  "perPage": 10
 }
 ```
 
-## Response
-The response will contain the status, message, and data of the transaction.
+### Example Response
 
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
+<Response>
 
-**Example Response**:
 ```json
 {
   "status_code": 200,
@@ -161,62 +168,30 @@ The response will contain the status, message, and data of the transaction.
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
+</Response>
 
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
+---
 
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
+## Customer Details
 
-```javascript
-var request = { 
-  method: "get", 
-  url: "https://dev-api.auxvault.net/api/v1/public/customers?params", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "authorization": "APIKEY"
-  }
-}
-```
+This endpoint allows you to view details for a specific customer, identified by their unique customer ID.
 
-# Customer Details
+<Endpoint method="GET" url="https://dev-api.auxvault.net/api/v1/public/customer/{id}">
 
-This endpoint allows you to view or update details for a specific customer, identified by their unique customer ID.
+<ParamField type="header" name="Authorization" required>
+  Your API key for authentication.
+</ParamField>
 
-## API Endpoint
-`https://dev-api.auxvault.net/api/v1/public/customer/fe8bd3d5-9ebd-4722-bf44-23d88c250b34 [id]`
+<ParamField type="path" name="id" required>
+  The unique identifier of the customer.
+</ParamField>
 
-## Request Parameters
-The request must be a GET request with the following parameters:
+</Endpoint>
 
-| Parameter | Data Type | Required | Description                    |
-|-----------|-----------|----------|--------------------------------|
-| id        | String    | Yes      | For individual customer data   |
+### Example Response (Success)
 
-## Example Request
-```json
-{
-  "req.params.id": "CustomerId from the user list"
-}
-```
+<Response status="200">
 
-## Response
-The response will contain the status, message, and data of the transaction.
-
-| Parameter | Data Type | Description                              |
-|-----------|-----------|------------------------------------------|
-| status    | String    | The status of the transaction            |
-| message   | String    | A message describing the transaction status |
-| data      | Object    | An object containing details of the transaction |
-
-**Example Response**:
 ```json
 {
   "status_code": 200,
@@ -247,33 +222,19 @@ The response will contain the status, message, and data of the transaction.
     ]
   }
 }
+```
+
+</Response>
+
+### Example Response (Error)
+
+<Response status="404">
+
+```json
 {
   "status_code": 404,
   "message": "Customer Not Exist"
 }
 ```
 
-## Error Codes
-If an error occurs, the response will contain an error code and a message.
-
-| Error Code | Description               |
-|------------|---------------------------|
-| 400        | Bad Request               |
-| 401        | Unauthorized              |
-| 403        | Forbidden                 |
-| 404        | Not Found                 |
-| 500        | Internal Server Error     |
-
-## Security
-To access this API endpoint, you will need to provide an API key in the header:
-
-```javascript
-var request = { 
-  method: "get", 
-  url: "https://dev-api.auxvault.net/api/v1/public/customer/fe8bd3d5-9ebd-4722-bf44-23d88c250b34", 
-  headers: { 
-    "Content-Type": "application/json", 
-    "authorization": "APIKEY"
-  }
-}
-```
+</Response>
