@@ -1,0 +1,267 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AuxVault API",
+    "description": "The AuxVault API is a RESTful API that allows you to process financial transactions, manage customers, and access transaction data securely.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.auxvault.net/api/v1/public",
+      "description": "Sandbox Environment"
+    },
+    {
+      "url": "https://api.auxvault.net/api/v1/public",
+      "description": "Production Environment"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
+  "paths": {
+    "/transaction": {
+      "post": {
+        "summary": "Card Transaction",
+        "description": "Process a credit card or ACH payment.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Amount": {"type": "number", "example": 10.50},
+                  "BillingAddress": {"type": "string", "example": "123 Main St"},
+                  "BillingCity": {"type": "string", "example": "Anytown"},
+                  "BillingCountry": {"type": "string", "example": "USA"},
+                  "BillingCountryCode": {"type": "string", "example": "+1"},
+                  "BillingCustomerName": {"type": "string", "example": "John Doe"},
+                  "BillingEmail": {"type": "string", "example": "john.doe@example.com"},
+                  "BillingPhoneNumber": {"type": "string", "example": "555-123-4567"},
+                  "BillingPostalCode": {"type": "string", "example": "12345"},
+                  "BillingState": {"type": "string", "example": "CA"},
+                  "ShippingSameAsBilling": {"type": "boolean"},
+                  "ShippingCustomerName": {"type": "string"},
+                  "ShippingEmail": {"type": "string"},
+                  "ShippingPhoneNumber": {"type": "string"},
+                  "ShippingAddress": {"type": "string"},
+                  "ShippingCountry": {"type": "string"},
+                  "ShippingCity": {"type": "string"},
+                  "ShippingState": {"type": "string"},
+                  "ShippingPostalCode": {"type": "string"},
+                  "CardNumber": {"type": "string", "example": "4111111111111111"},
+                  "Cvv": {"type": "string", "example": "123"},
+                  "ExpiryDate": {"type": "string", "example": "1225"},
+                  "SuggestedMode": {"type": "string", "example": "Card"},
+                  "ConvenienceFeeActive": {"type": "boolean"},
+                  "TransactionType": {"type": "string", "description": "1 for Sale, 2 for Auth"},
+                  "PaymentTokenization": {"type": "boolean"},
+                  "IpAddress": {"type": "string", "example": "192.168.1.1"}
+                },
+                "required": ["Amount", "BillingCountry", "BillingCountryCode", "BillingCustomerName", "BillingEmail", "BillingPhoneNumber", "BillingPostalCode", "CardNumber", "Cvv", "ExpiryDate", "SuggestedMode", "ConvenienceFeeActive", "IpAddress"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/transaction-list": {
+      "post": {
+        "summary": "Transaction List",
+        "description": "Retrieve a list of transactions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "search": {"type": "string"},
+                  "sort": {"type": "string", "enum": ["asc", "desc"]},
+                  "page": {"type": "integer"},
+                  "perPage": {"type": "integer"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/transaction/{id}": {
+      "get": {
+        "summary": "Transaction Details",
+        "description": "Retrieve the details of a specific transaction.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/void": {
+      "post": {
+        "summary": "Void Transaction",
+        "description": "Void a previously authorized transaction.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TransactionId": {"type": "string"},
+                  "TransactionFor": {"type": "string", "example": "Void"},
+                  "Reason": {"type": "string"}
+                },
+                "required": ["TransactionId", "TransactionFor"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/refund": {
+      "post": {
+        "summary": "Refund Transaction",
+        "description": "Process a full or partial refund for a settled transaction.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TransactionId": {"type": "string"},
+                  "TransactionFor": {"type": "string", "enum": ["FullRefund", "PartialRefund"]},
+                  "Amount": {"type": "number"},
+                  "Reason": {"type": "string"}
+                },
+                "required": ["TransactionId", "TransactionFor", "Amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/token-transaction": {
+      "post": {
+        "summary": "Token Transaction",
+        "description": "Process a transaction using a token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TokenId": {"type": "string"},
+                  "GatewayCustomerId": {"type": "string"},
+                  "Amount": {"type": "number"},
+                  "ConvenienceFeeActive": {"type": "boolean"},
+                  "Description": {"type": "string"},
+                  "ReferenceNo": {"type": "string"}
+                },
+                "required": ["TokenId", "GatewayCustomerId", "Amount", "ConvenienceFeeActive"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+
+    "/customers": {
+      "post": {
+        "summary": "Customer List",
+        "description": "Retrieve a list of customers.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "search": {"type": "string"},
+                  "sort": {"type": "string", "enum": ["asc", "desc"]},
+                  "page": {"type": "integer"},
+                  "perPage": {"type": "integer"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/customer/{id}": {
+      "get": {
+        "summary": "Customer Details",
+        "description": "Retrieve the details of a specific customer.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    }
+  }
+}

@@ -23,28 +23,12 @@
       },
       {
         "tab": "API Reference",
+        "openapi": "openapi.json",
         "groups": [
           {
             "group": "Overview",
             "pages": [
               "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Transaction Endpoints",
-            "pages": [
-              "api-reference/endpoints/transaction",
-              "api-reference/endpoints/void",
-              "api-reference/endpoints/refund",
-              "api-reference/endpoints/recurring",
-              "api-reference/endpoints/token-transaction",
-              "api-reference/endpoints/transaction-retrieval"
-            ]
-          },
-          {
-            "group": "Customer Management",
-            "pages": [
-              "api-reference/endpoints/customer"
             ]
           },
           {
