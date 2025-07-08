@@ -82,25 +82,48 @@
       }
     },
     "/transaction-list": {
-      "post": {
+      "get": {
         "summary": "Transaction List",
         "description": "Retrieve a list of transactions.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "search": {"type": "string"},
-                  "sort": {"type": "string", "enum": ["asc", "desc"]},
-                  "page": {"type": "integer"},
-                  "perPage": {"type": "integer"}
-                }
-              }
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful Response"
