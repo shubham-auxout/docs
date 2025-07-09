@@ -103,6 +103,30 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 400,
+                  "msg": "bad request error: invalid Postal Code"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
+                }
+              }
+            }
           }
         }
       }
@@ -180,6 +204,30 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 400,
+                  "msg": "bad request error: invalid parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
+                }
+              }
+            }
           }
         }
       }
@@ -226,6 +274,30 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 404,
+                  "msg": "Transaction not found"
+                }
+              }
+            }
           }
         }
       }
@@ -262,6 +334,30 @@
                   "data": {
                     "TransactionId": "d0snjfv0i479rlkc66v0"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 400,
+                  "msg": "bad request error: invalid transaction id"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
                 }
               }
             }
@@ -302,6 +398,30 @@
                   "data": {
                     "TransactionId": "d0snjfv0i479rlkc66v0"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 400,
+                  "msg": "bad request error: invalid amount"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
                 }
               }
             }
@@ -347,6 +467,30 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 400,
+                  "msg": "bad request error: invalid token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
+                }
+              }
+            }
           }
         }
       }
@@ -389,6 +533,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
+                }
+              }
+            }
           }
         }
       }
@@ -427,6 +583,30 @@
                     "PostalCode": "12345",
                     "StateId": 12
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 401,
+                  "msg": "Unauthorized: Invalid API Key"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "failed",
+                  "status_code": 404,
+                  "msg": "Customer not found"
                 }
               }
             }
