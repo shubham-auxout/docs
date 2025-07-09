@@ -76,7 +76,33 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "status_code": 100,
+                  "message": "Transaction Processed Successfully",
+                  "data": {
+                    "TransactionId": "d0snjfv0i479rlkc66v0",
+                    "BaseAmount": 10,
+                    "Amount": 10,
+                    "CardNumber": "1111",
+                    "BillingEmail": "federico@gmail.com",
+                    "BillingCustomerName": "Federico",
+                    "BillingAddress": "",
+                    "BillingCity": "",
+                    "BillingState": null,
+                    "BillingPostalCode": "",
+                    "BillingCountry": 1,
+                    "BillingCountryCode": "+1",
+                    "BillingPhoneNumber": "876543200",
+                    "TransactionType": 1,
+                    "Status": "1"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -126,7 +152,34 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status_code": 200,
+                  "message": "Transactions found successfully",
+                  "data": [
+                    {
+                      "TransactionId": "d0snjfv0i479rlkc66v0",
+                      "BaseAmount": 10,
+                      "Amount": 10,
+                      "CardNumber": "1111",
+                      "BillingEmail": "federico@gmail.com",
+                      "BillingCustomerName": "Federico",
+                      "BillingAddress": "",
+                      "BillingCity": "",
+                      "BillingState": null,
+                      "BillingPostalCode": "",
+                      "BillingCountry": 1,
+                      "BillingCountryCode": "+1",
+                      "BillingPhoneNumber": "876543200",
+                      "TransactionType": 1,
+                      "Status": "1"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -147,7 +200,32 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status_code": 200,
+                  "message": "Transaction Details found successfully",
+                  "data": {
+                    "TransactionId": "d0snjfv0i479rlkc66v0",
+                    "BaseAmount": 10,
+                    "Amount": 10,
+                    "CardNumber": "1111",
+                    "BillingEmail": "federico@gmail.com",
+                    "BillingCustomerName": "Federico",
+                    "BillingAddress": "",
+                    "BillingCity": "",
+                    "BillingState": null,
+                    "BillingPostalCode": "",
+                    "BillingCountry": 1,
+                    "BillingCountryCode": "+1",
+                    "BillingPhoneNumber": "876543200",
+                    "TransactionType": 1,
+                    "Status": "1"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -174,7 +252,19 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "status_code": 100,
+                  "message": "Transaction Voided Successfully",
+                  "data": {
+                    "TransactionId": "d0snjfv0i479rlkc66v0"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -202,7 +292,19 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "status_code": 100,
+                  "message": "Transaction Refunded Successfully",
+                  "data": {
+                    "TransactionId": "d0snjfv0i479rlkc66v0"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -232,12 +334,23 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "status_code": 100,
+                  "message": "Transaction Processed Successfully",
+                  "data": {
+                    "TransactionId": "d0snjfv0i479rlkc66v0"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-
     "/customers": {
       "post": {
         "summary": "Customer List",
@@ -260,7 +373,22 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status_code": 200,
+                  "message": "Customers found successfully",
+                  "data": [
+                    {
+                      "CustomerId": "cust_123",
+                      "CustomerName": "John Doe",
+                      "Email": "john.doe@example.com"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -281,7 +409,27 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response"
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status_code": 200,
+                  "message": "Customer Details found successfully",
+                  "data": {
+                    "CustomerId": "cust_123",
+                    "CustomerName": "John Doe",
+                    "Email": "john.doe@example.com",
+                    "PhoneNumber": "555-123-4567",
+                    "CountryId": 1,
+                    "CountryCode": "+1",
+                    "Address": "123 Main St",
+                    "City": "Anytown",
+                    "PostalCode": "12345",
+                    "StateId": 12
+                  }
+                }
+              }
+            }
           }
         }
       }
