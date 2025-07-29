@@ -43,16 +43,6 @@
     "global": {
       "anchors": [
         {
-          "anchor": "API Status",
-          "href": "https://status.auxvault.com",
-          "icon": "signal"
-        },
-        {
-          "anchor": "Developer Community",
-          "href": "https://community.auxvault.com",
-          "icon": "users"
-        },
-        {
           "anchor": "Support",
           "href": "https://support.auxvault.com",
           "icon": "headset"
@@ -78,10 +68,6 @@
     }
   },
   "footer": {
-    "socials": {
-      "twitter": "https://twitter.com/auxvault",
-      "github": "https://github.com/auxvault",
-      "linkedin": "https://linkedin.com/company/auxvault"
-    }
+
   }
 }
