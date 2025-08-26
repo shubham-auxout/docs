@@ -1,0 +1,20 @@
+---
+title: Webhooks
+description: Configure webhooks for Text‑to‑Pay and external refunds.
+---
+
+# Webhooks
+
+Your site must be publicly reachable over HTTPS.
+
+## Text‑to‑Pay updates
+- URL: `https://your-site.com/?wc-api=wc_auxpay_texttopay_webhook`
+- When a customer pays via the SMS link, this webhook updates the order automatically.
+
+## External refunds
+- URL: `https://your-site.com/?wc-api=wc_auxpay_refund_webhook`
+- When refunds originate outside WooCommerce (e.g., in AuxPay), this webhook creates a corresponding WooCommerce refund.
+
+<Callout type="info">
+If you use a staging domain, update webhook URLs accordingly.
+</Callout>

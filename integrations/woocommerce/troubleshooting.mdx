@@ -1,0 +1,16 @@
+---
+title: Troubleshooting
+description: Fix common setup and checkout issues.
+---
+
+# Troubleshooting
+
+- Method not visible: Enable under WooCommerce → Payments and verify AuxPay API settings
+- Fields missing: Disable ad/script blockers; check Content Security Policy
+- Fee not showing: Fee must be enabled and active in AuxPay config; Card/ACH must be selected
+- Text‑to‑Pay not updating: Ensure HTTPS and public reachability; verify webhook URLs; see Logs
+- Refunds not syncing: Confirm refund webhook configured in AuxPay to your site URL
+
+## Logs
+- Enable Debug Logs in AuxPay settings
+- View at WooCommerce → Status → Logs → source “auxpay-payment-gateway”

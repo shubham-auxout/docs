@@ -18,6 +18,20 @@
             "pages": [
               "index"
             ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/woocommerce/overview",
+              "integrations/woocommerce/install-activate",
+              "integrations/woocommerce/configure",
+              "integrations/woocommerce/payment-methods",
+              "integrations/woocommerce/fees",
+              "integrations/woocommerce/webhooks",
+              "integrations/woocommerce/testing",
+              "integrations/woocommerce/troubleshooting",
+              "integrations/woocommerce/faq"
+            ]
           }
         ]
       },
@@ -58,7 +72,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:dev@auxvault..net"
+        "href": "mailto:dev@auxpay.net"
       }
     ],
     "primary": {

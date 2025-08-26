@@ -1,0 +1,25 @@
+---
+title: Testing & Troubleshooting
+description: Sandbox testing and common fixes.
+---
+
+# Testing & Troubleshooting
+
+## Sandbox testing
+- Turn on Test Mode and use sandbox API URL/Key
+- Test API Connection → success
+- Fetch Configuration → confirm fee/processor settings load
+- Place test orders: Credit Card, ACH, Text‑to‑Pay
+- Confirm service fee (if enabled) and that Text‑to‑Pay orders auto-update after paying the SMS link
+- Check logs for errors (WooCommerce → Status → Logs → auxpay-payment-gateway)
+
+## Troubleshooting
+- Payment method not showing: ensure it’s enabled under WooCommerce → Payments, and AuxPay API settings are valid
+- Card/ACH fields missing: disable ad/script blockers; check site CSP
+- Service fee not appearing: enable fee and ensure it’s active in AuxPay config; method must be Card or ACH
+- Text‑to‑Pay not updating: confirm HTTPS public URL and webhook; check logs
+- Refund not syncing: verify refund webhook is configured to your site URL
+
+<Callout>
+Need help? Contact Support from the top navigation.
+</Callout>
