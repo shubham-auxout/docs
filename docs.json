@@ -33,7 +33,8 @@
                   "integrations/woocommerce/webhooks",
                   "integrations/woocommerce/testing",
                   "integrations/woocommerce/troubleshooting",
-                  "integrations/woocommerce/faq"
+                  "integrations/woocommerce/faq",
+                  "integrations/woocommerce/changelog"
                 ]
               }
             ]
