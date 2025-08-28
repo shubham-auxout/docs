@@ -35,7 +35,8 @@
                   "integrations/woocommerce/testing",
                   "integrations/woocommerce/troubleshooting",
                   "integrations/woocommerce/faq",
-                  "integrations/woocommerce/changelog"
+                  "integrations/woocommerce/changelog",
+                  "integrations/woocommerce/download"
                 ]
               }
             ]
@@ -67,11 +68,6 @@
           "anchor": "Support",
           "href": "mailto:dev@auxpay.net",
           "icon": "headset"
-        },
-        {
-          "anchor": "Download Plugin",
-          "href": "https://raw.githubusercontent.com/shubham-auxout/docs/main/Downloads/auxpay-payment-gateway-3.0.2.zip",
-          "icon": "arrow-down-tray"
         }
       ]
     }
