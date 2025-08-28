@@ -1,0 +1,56 @@
+---
+title: How To Guide
+description: Step-by-step guide for installing and configuring the WooCommerce plugin.
+---
+
+## Payment Listings
+
+Once plugin installed goto WooCommerce -> Settings -> Payments tab you will find the auxpay payment methods.
+
+Enable/disable to show/hide from frontend checkout page.
+
+![Enable or disable AuxPay payment methods in WooCommerce](../../images/enable-disable.png)
+
+## General Settings
+
+For plugin settings goto WooCommerce -> Settings -> AuxPay Gateway tab.
+
+Put your API key and API Url provided by AuxVault and hit save.
+
+Then test api connection and hit fetch configuration, system will update needful settings for merchant.
+
+![AuxPay Gateway general settings](../../images/large-General-settings.png)
+
+Note:
+
+If test mode enabled please use sandbox url otherwise use production url.
+
+Whenever you update API Key or Api Url always fetch configuration to save updated data.
+
+## Customized Labels
+
+Other customizable settings include payment title and payment description which will be visible to frontend user.
+
+![Customized labels and descriptions](../../images/large-Customized-settings.png)
+
+## Debug Logs
+
+If Debug logs are enabled then to review it goto WooCommerce -> Status -> Logs tab and search for auxpay-payment-gateway.
+
+![WooCommerce status logs for AuxPay](../../images/large-Status-logs.png)
+
+Note: These logs will be recording errors only.
+
+## Refunds
+
+Merchant can initiate refunds from orders edit page.
+
+For full refund through payment processor put total amount.
+
+![Full refund via payment processor](../../images/large-Full-refund.png)
+
+For partial refund put amount less than the total amount.
+
+![Partial refund via payment processor](../../images/large-Partial-refund.png)
+
+Note: Only settled transactions will be available for refunds.

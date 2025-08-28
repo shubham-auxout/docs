@@ -28,6 +28,7 @@
                   "integrations/woocommerce/overview",
                   "integrations/woocommerce/install-activate",
                   "integrations/woocommerce/configure",
+                  "integrations/woocommerce/howtoguide",
                   "integrations/woocommerce/payment-methods",
                   "integrations/woocommerce/fees",
                   "integrations/woocommerce/webhooks",
