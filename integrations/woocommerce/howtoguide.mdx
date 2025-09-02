@@ -21,6 +21,15 @@ Then test api connection and hit fetch configuration, system will update needful
 
 ![AuxPay Gateway general settings](/images/large-General-settings.png)
 
+Here are our two modes with base API URL:
+
+- Production: https://api.auxvault.net/api/v1/public
+- Sandbox/Test: https://dev-api.auxvault.net/api/v1/public
+
+Note: Base URL of the payment gateway should be without trailing slashes (e.g., no "/" at the end).
+
+The client will use the Production API URL.
+
 Note:
 
 If test mode enabled please use sandbox url otherwise use production url.
